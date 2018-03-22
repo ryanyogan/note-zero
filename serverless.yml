@@ -1,0 +1,15 @@
+service: note-zero-api
+
+plugins:
+  - serverless-webpack
+
+custom:
+  webpack:
+    webpackConfig: ./webpack.config.js
+    includeModules: true
+
+provider:
+  name: aws
+  runtime: nodejs6.10
+  state: prod
+  region: us-east-1
