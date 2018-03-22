@@ -12,6 +12,7 @@ module.exports = {
   performance: {
     hints: false
   },
+  stats: 'minimal',
   module: {
     rules: [
       {

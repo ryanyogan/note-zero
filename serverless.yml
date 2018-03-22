@@ -1,8 +1,11 @@
 service: note-zero-api
 
+# Use serverless-webpack plugin to transpile ES6/ES7
 plugins:
   - serverless-webpack
 
+# serverless-webpack configuration
+# Enable auto-packing of external modules
 custom:
   webpack:
     webpackConfig: ./webpack.config.js
@@ -11,5 +14,29 @@ custom:
 provider:
   name: aws
   runtime: nodejs6.10
-  state: prod
+  stage: prod
   region: us-east-1
+
+  # 'iamRoleStatement' defines the permission policy for the Lambda function.
+  # In this case Lambda functions are granted with permissions to access DynamoDB.
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:DescribeTable
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: "arn:aws:dynamodb:us-east-1:*:*"
+
+functions:
+  create:
+    handler: handlers/create.main
+    events:
+      - http:
+          path: notes
+          method: post
+          cors: true
+          authorizer: aws_iam
