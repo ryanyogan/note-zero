@@ -72,20 +72,20 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./handlers/create.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./handlers/get.js");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./handlers/create.js":
-/*!****************************!*\
-  !*** ./handlers/create.js ***!
-  \****************************/
+/***/ "./handlers/get.js":
+/*!*************************!*\
+  !*** ./handlers/get.js ***!
+  \*************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\nexports.main = undefined;\n\nvar _regenerator = __webpack_require__(/*! babel-runtime/regenerator */ \"babel-runtime/regenerator\");\n\nvar _regenerator2 = _interopRequireDefault(_regenerator);\n\nvar _asyncToGenerator2 = __webpack_require__(/*! babel-runtime/helpers/asyncToGenerator */ \"babel-runtime/helpers/asyncToGenerator\");\n\nvar _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);\n\nvar _uuid = __webpack_require__(/*! uuid */ \"uuid\");\n\nvar _uuid2 = _interopRequireDefault(_uuid);\n\nvar _dynamodbLib = __webpack_require__(/*! ../libs/dynamodb-lib */ \"./libs/dynamodb-lib.js\");\n\nvar db = _interopRequireWildcard(_dynamodbLib);\n\nvar _responseLib = __webpack_require__(/*! ../libs/response-lib */ \"./libs/response-lib.js\");\n\nfunction _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nvar main = exports.main = function () {\n  var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(event, context, callback) {\n    var data, params;\n    return _regenerator2.default.wrap(function _callee$(_context) {\n      while (1) {\n        switch (_context.prev = _context.next) {\n          case 0:\n            data = JSON.parse(event.body);\n            params = {\n              TableName: 'notes',\n              Item: {\n                userId: event.requestContext.identity.cognitoIdentityId,\n                noteId: _uuid2.default.v1(),\n                content: data.content,\n                attachment: data.attachment,\n                createdAt: new Date().getTime()\n              }\n            };\n            _context.prev = 2;\n            _context.next = 5;\n            return db.call('put', params);\n\n          case 5:\n            callback(null, (0, _responseLib.success)(params.Item));\n            _context.next = 11;\n            break;\n\n          case 8:\n            _context.prev = 8;\n            _context.t0 = _context['catch'](2);\n\n            callback(null, (0, _responseLib.failure)({ status: false }));\n\n          case 11:\n          case 'end':\n            return _context.stop();\n        }\n      }\n    }, _callee, undefined, [[2, 8]]);\n  }));\n\n  return function main(_x, _x2, _x3) {\n    return _ref.apply(this, arguments);\n  };\n}();\n\n//# sourceURL=webpack:///./handlers/create.js?");
+eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\nexports.main = undefined;\n\nvar _regenerator = __webpack_require__(/*! babel-runtime/regenerator */ \"babel-runtime/regenerator\");\n\nvar _regenerator2 = _interopRequireDefault(_regenerator);\n\nvar _asyncToGenerator2 = __webpack_require__(/*! babel-runtime/helpers/asyncToGenerator */ \"babel-runtime/helpers/asyncToGenerator\");\n\nvar _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);\n\nvar _dynamodbLib = __webpack_require__(/*! ../libs/dynamodb-lib */ \"./libs/dynamodb-lib.js\");\n\nvar db = _interopRequireWildcard(_dynamodbLib);\n\nvar _responseLib = __webpack_require__(/*! ../libs/response-lib */ \"./libs/response-lib.js\");\n\nfunction _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nvar main = exports.main = function () {\n  var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(event, context, callback) {\n    var params, result;\n    return _regenerator2.default.wrap(function _callee$(_context) {\n      while (1) {\n        switch (_context.prev = _context.next) {\n          case 0:\n            params = {\n              TableName: 'notes',\n              Key: {\n                userId: event.requestContext.identity.cognitoIdentityId,\n                noteId: event.pathParameters.id\n              }\n            };\n            _context.prev = 1;\n            _context.next = 4;\n            return db.call('get', params);\n\n          case 4:\n            result = _context.sent;\n\n            if (result.Item) {\n              callback(null, (0, _responseLib.success)(result.Item));\n            } else {\n              callback(null, (0, _responseLib.failure)({ status: false, error: 'Item not found.' }));\n            }\n            _context.next = 11;\n            break;\n\n          case 8:\n            _context.prev = 8;\n            _context.t0 = _context['catch'](1);\n\n            callback(null, (0, _responseLib.failure)({ status: false }));\n\n          case 11:\n          case 'end':\n            return _context.stop();\n        }\n      }\n    }, _callee, undefined, [[1, 8]]);\n  }));\n\n  return function main(_x, _x2, _x3) {\n    return _ref.apply(this, arguments);\n  };\n}();\n\n//# sourceURL=webpack:///./handlers/get.js?");
 
 /***/ }),
 
@@ -154,17 +154,6 @@ eval("module.exports = require(\"babel-runtime/helpers/asyncToGenerator\");\n\n/
 /***/ (function(module, exports) {
 
 eval("module.exports = require(\"babel-runtime/regenerator\");\n\n//# sourceURL=webpack:///external_%22babel-runtime/regenerator%22?");
-
-/***/ }),
-
-/***/ "uuid":
-/*!***********************!*\
-  !*** external "uuid" ***!
-  \***********************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-eval("module.exports = require(\"uuid\");\n\n//# sourceURL=webpack:///external_%22uuid%22?");
 
 /***/ })
 
